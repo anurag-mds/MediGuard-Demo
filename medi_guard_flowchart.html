@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MediGuard AI - Autonomous Provider Directory Intelligence System for Healthcare Data Validation">
+    <meta name="author" content="Anurag Gupta">
+    <meta name="keywords" content="healthcare, AI, provider directory, data validation, agentic AI">
+    <title>MediGuard AI - Autonomous Provider Directory Validation Workflow</title>
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="MediGuard AI Workflow">
+    <meta property="og:description" content="Autonomous provider directory validation using multi-agent AI">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon (optional - add if you have one) -->
+    <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
+    
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #1a1a1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .workflow-container {
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .workflow-title {
+            text-align: center;
+            color: #ffffff;
+            font-size: clamp(24px, 5vw, 32px); /* Responsive font size */
+            font-weight: 700;
+            margin-bottom: 50px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .workflow-subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 16px;
+            margin-top: -35px;
+            margin-bottom: 40px;
+        }
+
+        /* ===== NODE STYLES ===== */
+        .node {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin: 0 auto 15px;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap; /* Responsive wrapping */
+        }
+
+        .node-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .node-title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            flex-grow: 1;
+            min-width: 150px; /* Prevents wrapping too early */
+        }
+
+        .node-time {
+            color: #00D4FF;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(0, 212, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .node-description {
+            color: #b0b0b0;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-left: 55px;
+        }
+
+        .node-tech {
+            color: #00C853;
+            font-size: 13px;
+            margin-left: 55px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* ===== NODE COLOR GRADIENTS ===== */
+        .trigger { background: linear-gradient(135deg, #00C853 0%, #00A843 100%); }
+        .ocr { background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%); }
+        .parallel { background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%); }
+        .ml { background: linear-gradient(135deg, #0066CC 0%, #0052A3 100%); }
+        .quality { background: linear-gradient(135deg, #FFB300 0%, #FF8F00 100%); }
+        .validated { background: linear-gradient(135deg, #00C853 0%, #00A843 100%); }
+        .flagged { background: linear-gradient(135deg, #E53935 0%, #C62828 100%); }
+        .update { background: linear-gradient(135deg, #00ACC1 0%, #00838F 100%); }
+        .output { background: linear-gradient(135deg, #5E35B1 0%, #4527A0 100%); }
+
+        /* ===== ARROW CONNECTORS ===== */
+        .arrow {
+            width: 3px;
+            height: 35px;
+            background: linear-gradient(180deg, #00D4FF 0%, rgba(0, 212, 255, 0.3) 100%);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #00D4FF;
+        }
+
+        /* ===== PARALLEL BRANCHES ===== */
+        .parallel-container {
+            display: flex;
+            gap: 30px;
+            max-width: 700px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .parallel-container::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #00D4FF 0%, rgba(0, 212, 255, 0.3) 100%);
+            transform: translateX(-50%);
+        }
+
+        .parallel-container::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            background: #00D4FF;
+        }
+
+        .branch {
+            flex: 1;
+            min-width: 0; /* Prevents flex overflow */
+        }
+
+        .branch .node {
+            margin: 0 0 15px 0;
+        }
+
+        /* ===== CONVERGE LINE ===== */
+        .converge {
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #00D4FF 0%, rgba(0, 212, 255, 0.3) 100%);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .converge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(400px, 80vw); /* Responsive width */
+            height: 3px;
+            background: #00D4FF;
+        }
+
+        /* ===== SPLIT BRANCHES ===== */
+        .split-container {
+            display: flex;
+            gap: 30px;
+            max-width: 700px;
+            margin: 15px auto;
+            position: relative;
+        }
+
+        .split-container::before {
+            content: '';
+            position: absolute;
+            margin-top: -30px;
+            left: 50%;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #00D4FF 0%, rgba(0, 212, 255, 0.3) 100%);
+            transform: translateX(-50%);
+        }
+
+        /* ===== TIME BADGE ===== */
+        .time-badge {
+            text-align: center;
+            color: #00D4FF;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 0;
+            padding: 6px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+            width: auto;
+        }
+
+        /* ===== STATS BOX ===== */
+        .stats-box {
+            background: linear-gradient(135deg, #0066CC 0%, #00ACC1 100%);
+            border-radius: 12px;
+            padding: 25px 35px;
+            margin: 40px auto 0;
+            max-width: 650px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 102, 204, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+            gap: 25px;
+            color: #ffffff;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        /* ===== HUMAN INDICATOR ===== */
+        .human-indicator {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 18px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #333;
+        }
+
+        .footer a {
+            color: #00D4FF;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: #00ACC1;
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .workflow-title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+
+            .node {
+                padding: 15px 20px;
+            }
+
+            .node-description,
+            .node-tech {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .parallel-container,
+            .split-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .parallel-container::after {
+                display: none; /* Remove horizontal line on mobile */
+            }
+
+            .converge::before {
+                width: 200px; /* Shorter line on mobile */
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr; /* Stack stats vertically on mobile */
+                gap: 20px;
+            }
+
+            .stat-value {
+                font-size: 32px;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ===== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .node {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="workflow-container">
+        <!-- Header -->
+        <header>
+            <h1 class="workflow-title">MediGuard AI Workflow: Autonomous Execution</h1>
+            <p class="workflow-subtitle">Real-time provider directory validation in 30 minutes</p>
+        </header>
+
+        <main>
+            <!-- Manual Trigger -->
+            <article class="node" role="article">
+                <div class="node-header">
+                    <div class="node-icon trigger" aria-hidden="true">▶️</div>
+                    <h2 class="node-title">Manual Trigger</h2>
+                    <span class="node-time">Instant</span>
+                </div>
+                <p class="node-description">Staff uploads 200 provider profiles (CSV, PDF, scanned documents)</p>
+            </article>
+
+            <div class="arrow" role="presentation" aria-hidden="true"></div>
+
+            <!-- OCR Extraction -->
+            <article class="node">
+                <div class="node-header">
+                    <div class="node-icon ocr" aria-hidden="true">🔍</div>
+                    <h2 class="node-title">OCR Extraction</h2>
+                    <span class="node-time">2-3 min</span>
+                </div>
+                <p class="node-description">Extract text from PDFs and scanned docs using VLM + Tesseract</p>
+                <p class="node-tech">Tech: GPT-4 Vision, Tesseract, EasyOCR</p>
+            </article>
+
+            <!-- Parallel Processing -->
+            <div class="parallel-container">
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon parallel" aria-hidden="true">📋</div>
+                            <h2 class="node-title">NPI Verification</h2>
+                        </div>
+                        <p class="node-description">Verify provider NPI numbers against CMS database</p>
+                        <p class="node-tech">Tech: NPI Registry API</p>
+                    </article>
+                </div>
+
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon parallel" aria-hidden="true">🌐</div>
+                            <h2 class="node-title">Web Scraping</h2>
+                        </div>
+                        <p class="node-description">Scrape additional provider data from websites</p>
+                        <p class="node-tech">Tech: BeautifulSoup, Selenium</p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="time-badge" style="display: block; text-align: center;">5-10 min (parallel execution)</div>
+
+            <div class="converge" role="presentation" aria-hidden="true"></div>
+            <div class="arrow" role="presentation" aria-hidden="true"></div>
+
+            <!-- ML Prediction -->
+            <article class="node">
+                <div class="node-header">
+                    <div class="node-icon ml" aria-hidden="true">🤖</div>
+                    <h2 class="node-title">ML Prediction</h2>
+                    <span class="node-time">1-2 min</span>
+                </div>
+                <p class="node-description">AI-powered validation: XGBoost + confidence scoring</p>
+                <p class="node-tech">Tech: XGBoost, SHAP, Fuzzy Matching</p>
+            </article>
+
+            <div class="arrow" role="presentation" aria-hidden="true"></div>
+
+            <!-- Quality Scoring -->
+            <article class="node">
+                <div class="node-header">
+                    <div class="node-icon quality" aria-hidden="true">✓</div>
+                    <h2 class="node-title">Quality Scoring</h2>
+                    <span class="node-time">30 sec</span>
+                </div>
+                <p class="node-description">Score and flag entries for review (0-100% confidence)</p>
+                <p class="node-tech">Decision Point: Auto-validate or Flag for review</p>
+            </article>
+
+            <!-- Split: Auto-Validated / Flagged -->
+            <div class="split-container">
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon validated" aria-hidden="true">✅</div>
+                            <h2 class="node-title">Auto-Validated</h2>
+                        </div>
+                        <p class="node-description">High-quality entries auto-approved (85% of total)</p>
+                    </article>
+                </div>
+
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon flagged" aria-hidden="true">⚠️</div>
+                            <h2 class="node-title">Flagged for Review <span class="human-indicator" aria-label="Human review required">👤</span></h2>
+                        </div>
+                        <p class="node-description">Low-quality entries need staff review (15% only)</p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="converge" role="presentation" aria-hidden="true"></div>
+            <div class="arrow" role="presentation" aria-hidden="true"></div>
+
+            <!-- Update Directory -->
+            <article class="node">
+                <div class="node-header">
+                    <div class="node-icon update" aria-hidden="true">📄</div>
+                    <h2 class="node-title">Update Directory</h2>
+                    <span class="node-time">Real-time</span>
+                </div>
+                <p class="node-description">Auto-update provider directory with validated data</p>
+            </article>
+
+            <!-- Output Actions -->
+            <div class="parallel-container">
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon output" aria-hidden="true">📧</div>
+                            <h2 class="node-title">Send Alerts</h2>
+                        </div>
+                        <p class="node-description">Automated email alerts to providers with discrepancies</p>
+                    </article>
+                </div>
+
+                <div class="branch">
+                    <div class="arrow" role="presentation" aria-hidden="true"></div>
+                    <article class="node">
+                        <div class="node-header">
+                            <div class="node-icon output" aria-hidden="true">📊</div>
+                            <h2 class="node-title">Compliance Reports</h2>
+                        </div>
+                        <p class="node-description">Generate audit-ready compliance documentation</p>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Stats Box -->
+            <section class="stats-box" aria-label="Performance Metrics">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon" aria-hidden="true">⚡</div>
+                        <div class="stat-value">30 min</div>
+                        <div class="stat-label">Total Execution Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" aria-hidden="true">🎯</div>
+                        <div class="stat-value">15%</div>
+                        <div class="stat-label">Staff Review Only</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" aria-hidden="true">✅</div>
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Validation Accuracy</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                <strong>MediGuard AI</strong> - Autonomous Provider Directory Intelligence<br>
+                Built for EY Techathon 6.0 | Firstsource Challenge<br>
+                Developed by Anurag Gupta | Ruia College
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
