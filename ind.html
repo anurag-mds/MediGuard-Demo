@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScentSync™ | L'Oréal Brandstorm 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --cream: #faf9f7;
+            --gold: #b8956e;
+            --gold-light: #d4b896;
+            --emerald: #1a5c4a;
+            --magenta: #7a1e4a;
+            --text: #1a1a1a;
+            --text-muted: #666;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--sans);
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        /* === SLIDE 1: HERO === */
+        #slide-1 {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)),
+                        url('https://images.unsplash.com/photo-1541643600914-78b084683601?w=1600&q=80') center/cover;
+            color: var(--white);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+        }
+
+        #slide-1 .eyebrow {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold-light);
+            margin-bottom: 24px;
+        }
+
+        #slide-1 h1 {
+            font-family: var(--serif);
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        #slide-1 h1 span {
+            color: var(--gold-light);
+            display: block;
+        }
+
+        #slide-1 .subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* === SLIDE 2: PROBLEM/SOLUTION === */
+        #slide-2 {
+            background: var(--white);
+            padding: 100px 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 500;
+            margin-bottom: 48px;
+            color: var(--text);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; gap: 48px; }
+        }
+
+        .problem-card {
+            padding: 40px;
+            background: var(--cream);
+            border-left: 4px solid var(--magenta);
+        }
+
+        .problem-card h3 {
+            font-family: var(--serif);
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--magenta);
+        }
+
+        .problem-card p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .solution-card {
+            padding: 40px;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .solution-card .brand {
+            font-family: var(--serif);
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+
+        .solution-card .tagline {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .solution-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .feature-pill {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 12px 24px;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* === SLIDE 3: TECHNOLOGY === */
+        #slide-3 {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
+            padding: 100px 40px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 200px 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 900px) {
+            .tech-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .input-list, .output-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-item, .output-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .input-item:hover, .output-item:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .num {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .input-item .num { background: var(--emerald); }
+        .output-item .num { background: var(--magenta); }
+
+        .item-text h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .item-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .engine {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--gold), var(--gold-light));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 16px 48px rgba(184,149,110,0.4);
+        }
+
+        .engine-label {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .engine-sub {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 4px;
+        }
+
+        /* === SLIDE 4: IMPACT === */
+        #slide-4 {
+            background: var(--black);
+            color: var(--white);
+            padding: 100px 40px;
+        }
+
+        #slide-4 .section-title { color: var(--white); }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .impact-card {
+            padding: 32px;
+            background: rgba(255,255,255,0.05);
+            border-left: 3px solid var(--gold);
+            transition: all 0.3s;
+        }
+
+        .impact-card:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .impact-card .card-num {
+            font-family: var(--serif);
+            font-size: 48px;
+            font-weight: 500;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .impact-card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .impact-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .impact-card strong {
+            color: var(--gold-light);
+        }
+
+        /* === CTA BANNER === */
+        .cta-banner {
+            margin-top: 64px;
+            padding: 48px;
+            background: linear-gradient(135deg, var(--magenta), #5a1535);
+            text-align: center;
+        }
+
+        .cta-banner p {
+            font-family: var(--serif);
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* === FOOTER === */
+        footer {
+            padding: 40px;
+            background: var(--black);
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        footer .logo {
+            display: block;
+            margin-bottom: 16px;
+        }
+</style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">ScentSync™</a>
+        <ul class="nav-links">
+            <li><a href="#slide-1">Vision</a></li>
+            <li><a href="#slide-2">Technology</a></li>
+            <li><a href="#slide-3">Impact</a></li>
+        </ul>
+    </nav>
+
+    <!-- SLIDE 1: HERO -->
+    <section class="slide" id="slide-1">
+        <p class="eyebrow">L'Oréal Luxe Division</p>
+        <h1>The Broken Promise of<span>Luxury Fragrance</span></h1>
+        <p class="subtitle">Individual skin chemistry makes fragrance performance unpredictable. ScentSync™ changes everything.</p>
+        <div class="scroll-hint">Scroll to explore ↓</div>
+    </section>
+
+    <!-- SLIDE 2: PROBLEM & SOLUTION -->
+    <section class="slide" id="slide-2">
+        <div class="container">
+            <p class="section-label">The Challenge</p>
+            <h2 class="section-title">Why Luxury Fragrance Fails</h2>
+            
+            <div class="two-col">
+                <div>
+                    <div class="problem-card">
+                        <h3>Performance Inconsistency</h3>
+                        <p>The expected luxury longevity is rarely delivered due to the invisible variable: individual skin chemistry and climate conditions.</p>
+                    </div>
+                    <div class="problem-card" style="margin-top: 24px; border-color: var(--text-muted);">
+                        <h3>Erosion of Trust</h3>
+                        <p>This trial-and-error process leads to high returns and consumer distrust—undermining the very promise of luxury.</p>
+                    </div>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="brand">ScentSync™</div>
+                    <div class="tagline">The Science of Scent, Perfected.</div>
+                    <p>L'Oréal Luxe's fully free, phygital ecosystem based on Universal Design Principles—guaranteeing personalized scent performance for every body, budget, and belief.</p>
+                    <div class="feature-pill">ScentSync Access™</div>
+                    <p style="margin-top: 16px; font-size: 13px;">Sensory-Friendly Mode • Voice Navigation • Ethical Filters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 3: TECHNOLOGY -->
+    <section class="slide" id="slide-3">
+        <div class="container">
+            <p class="section-label">The Innovation</p>
+            <h2 class="section-title">Chemo-Kinetic Prediction Engine (CKPE)™</h2>
+            <p style="max-width: 700px; color: var(--text-muted); margin-bottom: 24px;">An AI algorithm that calculates the kinetic reaction between any fragrance molecule and your unique biological profile.</p>
+            
+            <div class="tech-grid">
+                <div class="input-list">
+                    <p class="section-label" style="margin-bottom: 8px;">4D Inputs</p>
+                    <div class="input-item">
+                        <div class="num">1</div>
+                        <div class="item-text">
+                            <h4>Physiological Data</h4>
+                            <p>pH, sebum, moisture</p>
+                        </div>
+                    </div>
+                    <div class="input-item">
+                        <div class="num">2</div>
+                        <div class="item-text">
+                            <h4>Environmental Data</h4>
+                            <p>Humidity, temp, altitude</p>
+                        </div>
+                    </div>
+                    <div class="input-item">
+                        <div class="num">3</div>
+                        <div class="item-text">
+                            <h4>Molecular Data</h4>
+                            <p>AI fragrance analysis</p>
+                        </div>
+                    </div>
+                    <div class="input-item">
+                        <div class="num">4</div>
+                        <div class="item-text">
+                            <h4>Behavioral Data</h4>
+                            <p>Habits, usage patterns</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="engine">
+                    <div class="engine-label">CKPE™</div>
+                    <div class="engine-sub">Engine</div>
+                </div>
+                
+                <div class="output-list">
+                    <p class="section-label" style="margin-bottom: 8px;">Outputs</p>
+                    <div class="output-item">
+                        <div class="num">1</div>
+                        <div class="item-text">
+                            <h4>Personalized Longevity</h4>
+                            <p>Exact hours on your skin</p>
+                        </div>
+                    </div>
+                    <div class="output-item">
+                        <div class="num">2</div>
+                        <div class="item-text">
+                            <h4>Note Evolution</h4>
+                            <p>When notes appear & fade</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 4: IMPACT -->
+    <section class="slide" id="slide-4">
+        <div class="container">
+            <p class="section-label">Business Value</p>
+            <h2 class="section-title">The Triple Impact</h2>
+            
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="card-num">01</div>
+                    <h3>Profitability</h3>
+                    <p><strong>+25% conversion</strong> through predictive accuracy. $2.5M investment, 24-month break-even.</p>
+                </div>
+                <div class="impact-card">
+                    <div class="card-num">02</div>
+                    <h3>Sustainability</h3>
+                    <p><strong>Refill Intelligence™</strong> reduces waste. Carbon-neutral on L'Oréal's 97% renewable infrastructure.</p>
+                </div>
+                <div class="impact-card">
+                    <div class="card-num">03</div>
+                    <h3>Global Scale</h3>
+                    <p><strong>Phased rollout:</strong> Paris, NYC, Shanghai pilot → Worldwide. KPIs: -30% returns, 500 tons waste reduction.</p>
+                </div>
+                <div class="impact-card">
+                    <div class="card-num">04</div>
+                    <h3>R&D Goldmine</h3>
+                    <p><strong>B2B insights</strong> fuel future formulation, regional preferences, and ingredient mapping.</p>
+                </div>
+            </div>
+            
+            <div class="cta-banner">
+                <p>ScentSync™ transforms consumer doubt into data-backed confidence, redefining luxury fragrance.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <a href="#" class="logo">ScentSync™</a>
+        <p>L'Oréal Brandstorm 2026</p>
+    </footer>
+</body>
+</html>
